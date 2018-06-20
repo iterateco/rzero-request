@@ -1,0 +1,28 @@
+{
+  "name": "rzero-request",
+  "version": "1.0.0",
+  "description": "Async request management for redux-zero",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "files": [
+    "src/"
+  ],
+  "peerDependencies": {
+    "redux-zero": "^4.12.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jetako/rzero-request.git"
+  },
+  "keywords": [
+    "redux-zero"
+  ],
+  "author": "Jesse Cooper",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jetako/rzero-request/issues"
+  },
+  "homepage": "https://github.com/jetako/rzero-request#readme"
+}
