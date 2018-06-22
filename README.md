@@ -1,23 +1,8 @@
 # rzero-request
-Async request management for redux-zero
+Async request management for [redux-zero](https://github.com/concretesolutions/redux-zero)
 
 ## Example
 ```javascript
-// actions.js
-
-import { request } from 'rzero-request'
-
-export const todoActions = store => ({
-  loadTodos: state => {
-    return request(store, 'todos')(
-      () => todosApi.query(),
-      (state, todos) => {
-        return { todos }
-      }
-    )
-  }
-})
-
 // store.js
 
 import createStore from 'redux-zero'
@@ -28,6 +13,21 @@ const initialState = {
 }
 
 export default createStore(initialState)
+
+// actions.js
+
+import { request } from 'rzero-request'
+
+export const todoActions = store => ({
+  loadTodos(state) {
+    return request(store, 'todos')(
+      () => todosApi.query(),
+      (state, todos) => {
+        return { todos }
+      }
+    )
+  }
+})
 
 // TodoList.jsx
 
@@ -59,15 +59,11 @@ export class TodoList extends Component {
 
     if (todosRequest.resolved) {
       return (
-        <div>
-          <div>
-          </div>
-          <ul>
-            {todos.map(todo => (
-              <li>{todo.name}</li>
-            ))}
-          </ul>
-        </div>
+        <ul>
+          {todos.map(todo => (
+            <li>{todo.name}</li>
+          ))}
+        </ul>
       )
     }
   }
