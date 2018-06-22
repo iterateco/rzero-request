@@ -2,9 +2,9 @@
 Async request management for [redux-zero](https://github.com/concretesolutions/redux-zero)
 
 ## Example
-```javascript
-// store.js
 
+### store.js
+```javascript
 import createStore from 'redux-zero'
 
 const initialState = {
@@ -13,9 +13,10 @@ const initialState = {
 }
 
 export default createStore(initialState)
+```
 
-// actions.js
-
+### actions.js
+```javascript
 import { request } from 'rzero-request'
 
 export const todoActions = store => ({
@@ -28,9 +29,10 @@ export const todoActions = store => ({
     )
   }
 })
+```
 
-// TodoList.jsx
-
+### TodoList.jsx
+```javascript
 import React, { Component } from 'react'
 import { connect } from 'redux-zero/react'
 import { selectRequest } from 'rzero-request'
