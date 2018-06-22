@@ -36,6 +36,7 @@ export const todoActions = store => ({
 import React, { Component } from 'react'
 import { connect } from 'redux-zero/react'
 import { selectRequest } from 'rzero-request'
+import { todoActions } from './actions'
 
 @connect(state => {
   return {
