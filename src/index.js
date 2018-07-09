@@ -2,7 +2,7 @@ export function request(store, ...args) {
   let options
 
   // Resolve options argument.
-  if (args.length > 2 && String(args[args.length - 1]) === '[object Object]') {
+  if (args.length > 1 && String(args[args.length - 1]) === '[object Object]') {
     options = args.pop()
   }
 
