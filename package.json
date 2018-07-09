@@ -1,6 +1,6 @@
 {
   "name": "rzero-request",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Async request management for redux-zero",
   "main": "src/index.js",
   "scripts": {

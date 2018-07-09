@@ -11,43 +11,47 @@ export function request(store, ...args) {
 
   return async (requestFunc, handler) => {
     const state = store.getState()
-    let request = state.requests[key] || {}
+    const request = state.requests[key] || {}
 
     // Proceed if enough time has elapsed since the last resolved request.
     if (ttl && request.resolved && Date.now() - request.ts > ttl) return
 
     // Create pending request and update store.
-    request = { pending: true }
-    store.setState(setRequest(state, key, request))
+    const pendingRequest = { pending: true }
+    store.setState(setRequest(state, key, pendingRequest))
 
     // Execute request.
     try {
       let update = await requestFunc()
       let state = store.getState()
 
-      // Ensure this request was not modified by another operation.
-      if (state.requests[key] === request) {
-        if (handler) {
-          try {
-            update = await handler(state, update)
-          } catch (error) {
-            console.error(error)
-            throw error
-          }
-        }
+      // Exit if the request was modified.
+      if (pendingRequest !== state.requests[key]) return
 
-        state = update && update.requests ? update : store.getState()
-
-        return {
-          ...update,
-          ...setRequest(state, key, { resolved: true, ts: Date.now() })
+      if (handler) {
+        try {
+          update = await handler(state, update)
+          state = store.getState()
+        } catch (error) {
+          console.error(error)
+          throw error
         }
+      }
+
+      // Only return state update if the request was modified.
+      if (pendingRequest !== state.requests[key]) {
+        return update
+      }
+
+      return {
+        ...update,
+        ...setRequest(state, key, { resolved: true, ts: Date.now() })
       }
     } catch (error) {
       const state = store.getState()
 
-      // Ensure this request was not modified by another operation.
-      if (state.requests[key] === request) {
+      // Ensure the request was not modified.
+      if (pendingRequest === state.requests[key]) {
         return setRequest(state, key, { rejected: true, error })
       }
     }
