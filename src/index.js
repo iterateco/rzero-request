@@ -60,13 +60,10 @@ export function request(store, ...args) {
 
 var requestKeyCounter = 0
 
-export function bindRequestKey(action, key = `#${++requestKeyCounter}`) {
+export function bindRequestKey(action, key = `*${++requestKeyCounter}`) {
   const wrapper = (state, ...args) => action(state, key, ...args)
 
-  if (action.name) {
-    Object.defineProperty(wrapper, 'name', { value: `${action.name} ${key}` })
-  }
-
+  Object.defineProperty(wrapper, 'name', { value: action.name })
   wrapper.bound = action
   wrapper.key = key
 
