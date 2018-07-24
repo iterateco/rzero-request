@@ -63,7 +63,13 @@ var requestKeyCounter = 0
 export function bindRequestKey(action, key = `*${++requestKeyCounter}`) {
   const wrapper = (state, ...args) => action(state, key, ...args)
 
-  Object.defineProperty(wrapper, 'name', { value: action.name })
+  // Give the wrapper the same name as the action to assist with logging.
+  // Some older JS runtimes don't allow defining a function name,
+  // so we have to wrap this in a try/catch block.
+  try {
+    Object.defineProperty(wrapper, 'name', { value: action.name, writable: false })
+  } catch(e) {}
+
   wrapper.bound = action
   wrapper.key = key
 
